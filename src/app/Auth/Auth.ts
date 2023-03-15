@@ -1,5 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createReducer,createAction,createAsyncThunk } from '@reduxjs/toolkit';
+import { Authme } from '../../API/api';
 
 interface ItinialStateAuth {
     fullName:string,
@@ -20,9 +21,22 @@ interface UserData{
     id:number,
 }
 
-export const Type_SetData= 'TYPE-SET-DATA'
+interface AwaitUserData{
+    fullName:string, 
+    email:string, 
+    password:string,
+    role:string 
+}
 
-export const setData =createAction<UserData>(Type_SetData)
+export const SingUp = createAsyncThunk<unknown,AwaitUserData>('SING-UP-USER',async (value,{dispatch})=>{
+    const fetch = new Authme().SignUp({...value,role:''})
+})
+
+export const Login = createAsyncThunk<unknown,AwaitUserData>('LOGIN-USER',async (value,{dispatch})=>{
+
+})
+
+export const setData =createAction<UserData>('TYPE-SET-DATA')
 
 export const Auth = createReducer(InitialState,{
     [setData.type]:(state,action:PayloadAction<UserData>)=>{
